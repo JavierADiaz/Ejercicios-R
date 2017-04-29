@@ -1,0 +1,33 @@
+#Programms get the inverse of a matrix once to be use in a loop calculation
+# call by makeCacheMatrix(x) x is an square matrix
+makeCacheMatrix<- function(a=matrix()){
+             # Put initial values in Zero
+  Inva<<-NULL
+            # Define set&get functions for setting and gettin the matrix a
+            # a and inverse of a Inva
+    set<- function(b){
+    a<<-b
+    Inva<<- NULL
+  }
+  get<- function()a
+  setInva<- function(solve) Inva<<- solve
+  getInva<- function() Inva
+  list(set=set,get=get,setInva=setInva,getInva=getInva)
+}
+                        
+cacheInv<- function(a,...){
+            # get Inva. ifit is first time it is null otherwise != null
+            # and get the Inva
+  Inva<<- a$getInva()
+  if(!is.null( Inva)){
+   message("Inva from cache")
+    return(Inva)
+  }
+  ab<- a$get()
+  mat.data<- ab
+      #calculation of the Iners of a as Inva. 
+      # Note solve has a b (RHS) vector of zero by defaul
+  Inva<- solve(mat.data)
+  a$setInva(Inva)
+  message("Inv of a was calculated successfully")
+}
